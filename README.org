@@ -1,0 +1,20 @@
+#+TITLE: ignore-it
+
+
+* ignore-it
+
+** Description
+*ignore-it* is a tool written in ruby which helps in fetching and creating .gitignore files.
+Currently .gitignore files will be fetched from [https://gitignore.io].
+
+** Usage
+=git-ignore -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
+
+=git-ignore -l= shows all the supported languages
+
+** Development 
+1) Clone the repo
+2) Run the tool with =ruby lib/ignore_it.rb=
+3) Build with =gem build ignore_it.gemspec=
+4) Install with =gem install ignore-it=
+
