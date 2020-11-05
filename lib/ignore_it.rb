@@ -9,6 +9,21 @@ class IgnoreIt
     @options = {}
   end
 
+  def check_list(file)
+    response = Net::HTTP.get(URI(@url))
+    jsonResponse = JSON.parse(response)
+    exists = false
+
+    jsonResponse.each do |extension|
+      if file == extension.first
+        exists = true
+        break
+      end
+    end
+
+    exists
+  end
+
   def create_ignore(name)
     response = Net::HTTP.get(URI(@url))
     jsonResponse = JSON.parse(response)
