@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require "ignore_it"
+
+tool = IgnoreIt.new
+
+OptionParser.new do |parser|
+  parser.on(
+    "-f ", "--file FILE", "Select gitignore template to fetch"
+  ) do |file|
+    if tool.check_list(file)
+      tool.create_ignore(file)
+    else
+      puts "The template you tried to fetch does not exist\nPlease checkout the available templates with ruby lib/ignore-it.rb -l / --list"
+    end
+    # @options[:file] = true
+  end
+  parser.on("-c", "--color", "Enable syntax highlighting") do
+    @options[:syntax_highlighting] = true
+  end
+  parser.on("-l", "--list", "Show List of available .gitignore entries") do
+    tool.show_list
+  end
+end.parse!

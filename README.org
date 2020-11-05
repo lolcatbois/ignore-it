@@ -5,13 +5,14 @@
 Currently .gitignore files will be fetched from [https://gitignore.io].
 
 ** Usage
-=git-ignore -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
+=ignore-it -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
 
-=git-ignore -l= shows all the supported languages
+=ingore-it -l= shows all the supported languages
+
 
 ** Development 
 1) Clone the repo
-2) Run the tool with =ruby lib/ignore_it.rb=
-3) Build with =gem build ignore_it.gemspec=
-4) Install with =gem install ignore-it=
+2) Run the tool with =ruby -Irb bin/ignore-it -h=
+3) Optionally Build with =gem build ignore_it.gemspec=
+4) Optionally Install locally  with =gem install ignore-it-[VERSION].gem=
 
