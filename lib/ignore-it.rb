@@ -3,6 +3,26 @@ require 'net/http'
 require 'json'
 require 'readline'
 
+
+def check_list(file)
+  response = Net::HTTP.get(URI(@url))
+  jsonResponse = JSON.parse(response)
+  exists = false
+
+  jsonResponse.each do |extension|
+    if file == extension.first
+      exists = true
+      break
+    end
+  end
+
+  return exists
+
+end
+
+
+
+
 def create_ignore(name)
   response = Net::HTTP.get(URI(@url))
   jsonResponse = JSON.parse(response)
@@ -69,7 +89,12 @@ OptionParser.new do |parser|
   parser.on(
     "-f ", "--file FILE", "Select gitignore template to fetch"
   ) do |file|
-    create_ignore(file)
+    if check_list(file)
+      create_ignore(file) 
+    else
+      puts "The template you tried to fetch does not exist\nPlease checkout the available templates with ruby lib/ignore-it.rb -l / --list"
+    end
+    
     # @options[:file] = true
   end
   parser.on("-c", "--color", "Enable syntax highlighting") do
