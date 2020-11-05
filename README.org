@@ -6,6 +6,7 @@ Currently .gitignore files will be fetched from [https://gitignore.io].
 
 ** Usage
 =ignore-it -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
+
 =ingore-it -l= shows all the supported languages
 
 
