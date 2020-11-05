@@ -1,8 +1,5 @@
 #+TITLE: ignore-it
 
-
-* ignore-it
-
 ** Description
 *ignore-it* is a tool written in ruby which helps in fetching and creating .gitignore files.
 Currently .gitignore files will be fetched from [https://gitignore.io].
