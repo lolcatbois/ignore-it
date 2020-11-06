@@ -8,7 +8,7 @@ class IgnoreIt
     @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
     @options = {}
   end
-
+  
   def check_list(file)
     response = Net::HTTP.get(URI(@url))
     jsonResponse = JSON.parse(response)
@@ -71,16 +71,10 @@ class IgnoreIt
   def show_list
     response = Net::HTTP.get(URI(@url))
     jsonResponse = JSON.parse(response)
+    sortedArray = jsonResponse.sort
 
-    num = 0
-    jsonResponse.each do |entry|
-      if num < 10
-        print(entry.first + ", ")
-        num += 1
-      else
-        puts entry.first + ", "
-        num = 0
-      end
-    end
+    sortedArray.each do |entry|
+      puts entry.first
+    end   
   end
 end
