@@ -1,11 +1,19 @@
+PATH
+  remote: .
+  specs:
+    ignore-it (0.0.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    rake (11.3.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  ignore-it!
+  rake (~> 11.3.0)
 
 BUNDLED WITH
    2.1.4
