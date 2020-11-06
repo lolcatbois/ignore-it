@@ -1,6 +1,7 @@
 # lib/creation.rb
 require 'ignore_it/list'
 require 'readline'
+require 'colorize'
 
 module IgnoreIt
   class Creator
@@ -14,14 +15,16 @@ module IgnoreIt
       template = @jsonResponse[name]
       contents = template["contents"]
 
+      puts "Creating .gitignore for " + name.colorize(:green)
+
       if File.exist?(".gitignore")
         # Store the state of the terminal
         sttySave = %x(stty -g).chomp
         overwrite = false
 
         begin
-          puts "File already exists!\nDo you want to continue? y/n?"
-          while (line = Readline.readline('> ', true))
+          puts "File already exists! Overwrite? [y/n]?"
+          while (line = Readline.readline('> ', true).downcase)
             # if (line.empty? or line != "y" or line != "n")
 
             if line == "y"
@@ -32,7 +35,7 @@ module IgnoreIt
               break
             # puts "ney"
             elsif (line != "y") || (line != "n")
-              puts "Please provide a correct format (y or n)"
+              puts "Please provide a correct format (y or n)".colorize(:red)
               # puts "wut"
             end
           end
@@ -43,12 +46,14 @@ module IgnoreIt
 
         if overwrite
           File.write("./.gitignore", contents)
+          puts ".gitignore has been created!".colorize(:green)
         else
-          puts "Couldn't overrite existing File. Terminating process!"
+          puts ".gitignore has NOT been created! Terminating process!".colorize(:red)
         end
 
       else
         File.write("./.gitignore", contents)
+        puts ".gitignore has been created!".colorize(:green)
       end
     end
   end

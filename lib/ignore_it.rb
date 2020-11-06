@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'colorize'
 require 'readline'
 require 'ignore_it/list'
 require 'ignore_it/creator'
@@ -22,7 +23,8 @@ module IgnoreIt
           if @list.check_list(file)
             @creator.create_ignore(file)
           else
-            puts "The template you tried to fetch does not exist\nPlease checkout the available templates with ruby lib/ignore-it.rb -l / --list"
+            puts "The template you tried to fetch does not exist".colorize(:red)
+            puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
           end
           # @options[:file] = true
         end
