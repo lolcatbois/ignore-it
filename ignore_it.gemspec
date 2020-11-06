@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
 
   # DEPENDENCIES
   s.add_development_dependency("rake", "~> 11.3.0")
+  s.add_development_dependency("rubocop", "~> 1.2")
+  s.add_runtime_dependency('colorize', "~> 0.8.1")
 end
