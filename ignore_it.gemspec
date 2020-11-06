@@ -8,4 +8,7 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^test/})
   s.require_paths = ["lib"]
+
+  # DEPENDENCIES
+  s.add_development_dependency("rake", "~> 11.3.0")
 end
