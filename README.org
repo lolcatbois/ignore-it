@@ -16,13 +16,6 @@ Currently .gitignore files will be fetched from [https://gitignore.io].
 ** Development 
 1) Clone the repo
 2) install Dependencies with =bundle install=
-3) Run the tool with =ruby -Irb bin/ignore-it -h=
-4) Optionally Build with =gem build ignore_it.gemspec=
-5) Optionally Install locally  with =gem install ignore-it-[VERSION].gem=
-
-NEW WAY with bundler (Old one may be deprecated)
-1) Clone the repo
-2) install Dependencies with =bundle install=
 3) Run with =bundle exec ignore-it=
 4) Optionally Build with =gem build ignore_it.gemspec=
 5) Optionally Install locally  with =gem install ignore-it-[VERSION].gem=
