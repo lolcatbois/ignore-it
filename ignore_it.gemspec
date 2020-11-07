@@ -4,7 +4,9 @@ Gem::Specification.new do |s|
   s.date = '2020-11-07'
   s.summary = 'ignore-it your command line tool for fetching .gitignore files'
   s.authors = ["Felix Macho", "Simon Sölder"]
-  s.files         = Dir.glob("{bin,lib}/**/*")
+  s.metadata = { "source_code_uri" => "https://github.com/lolcatbois/ignore-it " }
+  s.files = Dir.glob("{bin,lib}/**/*")
+  s.licenses = ['MIT']
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^test/})
   s.require_paths = ["lib"]
