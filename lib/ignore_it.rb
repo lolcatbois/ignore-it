@@ -24,6 +24,7 @@ module IgnoreIt
         parser.on(
           "-f ", "--file FILE", "Select gitignore template to fetch"
         ) do |file|
+          file = file.downcase
           if @list.check_list(file)
             @creator.create_ignore(file)
           else
