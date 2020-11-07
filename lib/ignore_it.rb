@@ -16,7 +16,11 @@ module IgnoreIt
     end
 
     def start
+
+      ARGV << '-h' if ARGV.empty?
+
       OptionParser.new do |parser|
+        parser.banner = "How to Use ignore-it: Pass one of the following options: e.g => ignore-it -f csharp"
         parser.on(
           "-f ", "--file FILE", "Select gitignore template to fetch"
         ) do |file|
@@ -27,9 +31,6 @@ module IgnoreIt
             puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
           end
           # @options[:file] = true
-        end
-        parser.on("-c", "--color", "Enable syntax highlighting") do
-          @options[:syntax_highlighting] = true
         end
         parser.on("-l", "--list", "Show List of available .gitignore entries") do
           @list.show_list
