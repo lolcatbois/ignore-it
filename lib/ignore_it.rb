@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'colorize'
 require 'readline'
 require 'ignore_it/list'
 require 'ignore_it/creator'
@@ -15,19 +16,22 @@ module IgnoreIt
     end
 
     def start
+
+      ARGV << '-h' if ARGV.empty?
+
       OptionParser.new do |parser|
+        parser.banner = "How to Use ignore-it: Pass one of the following options: e.g => ignore-it -f csharp"
         parser.on(
           "-f ", "--file FILE", "Select gitignore template to fetch"
         ) do |file|
+          file = file.downcase
           if @list.check_list(file)
             @creator.create_ignore(file)
           else
-            puts "The template you tried to fetch does not exist\nPlease checkout the available templates with ruby lib/ignore-it.rb -l / --list"
+            puts "The template you tried to fetch does not exist".colorize(:red)
+            puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
           end
           # @options[:file] = true
-        end
-        parser.on("-c", "--color", "Enable syntax highlighting") do
-          @options[:syntax_highlighting] = true
         end
         parser.on("-l", "--list", "Show List of available .gitignore entries") do
           @list.show_list
