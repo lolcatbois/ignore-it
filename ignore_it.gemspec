@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'ignore-it'
-  s.version = "1.0.1"
+  s.version = "1.0.2"
   s.date = '2020-11-07'
   s.summary = 'ignore-it your command line tool for fetching .gitignore files'
   s.authors = ["Felix Macho", "Simon Sölder"]
