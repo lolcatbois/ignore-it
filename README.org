@@ -8,7 +8,7 @@ Currently .gitignore files will be fetched from [https://gitignore.io].
 =gem install ignore-it=
 
 ** Usage
-=ignore-it -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
+=ignore-it -f [language]= fetches a .gitignore file and creates it in the directory where =ignore-it= has been envoked.
 
 =ignore-it -l= shows all the supported languages
 
