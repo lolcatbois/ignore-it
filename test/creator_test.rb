@@ -10,8 +10,14 @@ module IgnoreIt
 
     describe "when running with -f vscode" do
       it "creates a vscode .gitignore file in the local folder" do
-        @creator.create_ignore("chsarp")
+        @creator.create_ignore("vscode")
         assert File.exist?(".gitignore")
+      end
+      it "contains the vscode gitignore content" do
+        response = JSON.parse(Net::HTTP.get(URI("https://www.toptal.com/developers/gitignore/api/list?format=json")))
+        contents = response["vscode"]["contents"]
+        fileData = File.read(".gitignore")
+        assert contents == fileData
       end
     end
   end
