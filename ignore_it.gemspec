@@ -11,8 +11,10 @@ Gem::Specification.new do |s|
   s.test_files    = s.files.grep(%r{^test/})
   s.require_paths = ["lib"]
 
-  # DEPENDENCIES
-  s.add_development_dependency("rake", "~> 11.3.0")
-  s.add_development_dependency("rubocop", "~> 1.2")
-  s.add_runtime_dependency('colorize', "~> 0.8.1")
+  # DEV DEPENDENCIES
+  s.add_development_dependency("rake", ">= 11.3.0")
+  s.add_development_dependency("minitest")
+
+  # RUNTIME DEPENDENCIES
+  s.add_runtime_dependency('colorize', ">= 0.8.1")
 end
