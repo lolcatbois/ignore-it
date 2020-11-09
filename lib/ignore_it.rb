@@ -14,6 +14,7 @@ module IgnoreIt
       @options = {}
       @list = List.new
       @creator = Creator.new
+      create_config_folder
     end
 
     def start
@@ -47,6 +48,15 @@ module IgnoreIt
           @list.show_list
         end
       end.parse!
+    end
+
+    def create_config_folder
+      Dir.chdir(Dir.home) do
+        unless Dir.exist?(".ignore-it")
+          Dir.mkdir(".ignore-it")
+          Dir.mkdir(".ignore-it/gitignores")
+        end
+      end
     end
   end
 end

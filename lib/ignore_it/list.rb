@@ -10,9 +10,25 @@ module IgnoreIt
       @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
       @response = Net::HTTP.get(URI(@url))
       @jsonResponse = JSON.parse(@response)
+      @ownFiles = Dir.chdir(Dir.home) do
+        Dir.entries(".ignore-it/gitignores/").map(&:downcase)
+      end
     end
 
-    attr_reader :jsonResponse
+    attr_reader :jsonResponse, :ownFiles
+
+    def check_own_files(file)
+      if @ownFiles.include?(file.downcase)
+        exists = true
+      end
+      exists
+    end
+
+    def show_own_files
+      @ownFiles.each do |file|
+        puts file
+      end
+    end
 
     def check_list(file)
       exists = false

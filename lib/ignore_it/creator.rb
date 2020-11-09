@@ -7,8 +7,12 @@ require 'colorize'
 module IgnoreIt
   class Creator
     def initialize
-      list = List.new
-      @jsonResponse = list.jsonResponse
+      @list = List.new
+      @jsonResponse = @list.jsonResponse
+      @ownFiles = @list.ownFiles
+    end
+
+    def create_own_ignore(name)
     end
 
     # Code here
