@@ -10,11 +10,11 @@ module IgnoreIt
   class Main
     # constructor
     def initialize
+      create_config_folder
       @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
       $options = {}
-      @list = List.new
       @creator = Creator.new
-      create_config_folder
+      @list = List.new
     end
 
     def start
