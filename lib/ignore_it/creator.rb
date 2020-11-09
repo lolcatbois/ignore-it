@@ -7,15 +7,11 @@ require 'colorize'
 module IgnoreIt
   class Creator
     def initialize
-      list = List.new
-      @jsonResponse = list.jsonResponse
+      @list = List.new
+      @jsonResponse = @list.jsonResponse
     end
 
-    # Code here
-    def create_ignore(name)
-      template = @jsonResponse[name]
-      contents = template["contents"]
-
+    def create_file(contents, name)
       puts "Creating .gitignore for " + name.colorize(:green)
       unless $options[:force]
         if File.exist?(".gitignore")
@@ -63,6 +59,20 @@ module IgnoreIt
         File.write("./.gitignore", contents)
         puts ".gitignore has been created!".colorize(:green)
       end
+    end
+
+    def create_own_ignore(name)
+      contents = ""
+      Dir.chdir(Dir.home) do
+        contents = File.read(".ignore-it/gitignores/" + name)
+      end
+      create_file(contents, name)
+    end
+
+    def create_api_ignore(name)
+      template = @jsonResponse[name]
+      contents = template["contents"]
+      create_file(contents, name)
     end
   end
 end
