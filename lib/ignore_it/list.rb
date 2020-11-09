@@ -11,14 +11,14 @@ module IgnoreIt
       @response = Net::HTTP.get(URI(@url))
       @jsonResponse = JSON.parse(@response)
       @ownFiles = Dir.chdir(Dir.home) do
-        Dir.entries(".ignore-it/gitignores/").map(&:downcase)
+        Dir.entries(".ignore-it/gitignores/")
       end
     end
 
     attr_reader :jsonResponse, :ownFiles
 
     def check_own_files(file)
-      if @ownFiles.include?(file.downcase)
+      if @ownFiles.include?(file)
         exists = true
       end
       exists

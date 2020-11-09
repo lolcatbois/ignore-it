@@ -19,7 +19,7 @@ module IgnoreIt
 
     def start
       ARGV << '-h' if ARGV.empty?
-      if ARGV.include? ("--f")
+      if ARGV.include?("--f")
         $options[:force] = true
       end
 
@@ -38,8 +38,24 @@ module IgnoreIt
             puts "You need to pass arguments (e.g => ignore-it -a **NAME**)"
           end
         end
+        parser.on("-o ", "--own FILE", "Select user-created template from ~/.ignore-it/gitignores/") do |file|
+          if !file.empty?
+            if @list.check_own_files(file)
+              @creator.create_own_ignore(file)
+            else
+              puts "The template you tried to create does not exist in ~/.ignore-it/gitignores/".colorize(:red)
+              puts "The following templates are available:".colorize(:red)
+              @list.show_own_files
+            end
+          else
+            puts "You need to pass arguments (e.g => ignore-it -o **NAME**)"
+          end
+        end
         parser.on("-l", "--list", "Show List of available .gitignore entries") do
+          puts "---- Available templates from gitignore.io: ----"
           @list.show_list
+          puts "---- Available templates from ~/.ignore-it/gitignores/: ----"
+          @list.show_own_files
         end
         parser.on("--f", "--force", "Force overwriting the current .gitignore file") do
         end
