@@ -29,7 +29,7 @@ module IgnoreIt
           if !file.empty?
             file = file.downcase
             if @list.check_list(file)
-              @creator.create_ignore(file)
+              @creator.create_api_ignore(file)
             else
               puts "The template you tried to fetch does not exist".colorize(:red)
               puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
