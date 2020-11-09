@@ -15,7 +15,7 @@ module IgnoreIt
       @list = List.new
       @creator = Creator.new
     end
-    
+
     def start
       ARGV << '-h' if ARGV.empty?
       if ARGV.include? ("--f")
