@@ -11,7 +11,7 @@ module IgnoreIt
     # constructor
     def initialize
       @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
-      @options = {}
+      $options = {}
       @list = List.new
       @creator = Creator.new
       create_config_folder
@@ -19,35 +19,32 @@ module IgnoreIt
 
     def start
       ARGV << '-h' if ARGV.empty?
+      if ARGV.include? ("--f")
+        $options[:force] = true
+      end
 
       OptionParser.new do |parser|
-        parser.banner = "How to Use ignore-it: Pass one of the following options: e.g => ignore-it -f csharp"
-        parser.on("-f ", "--file FILE", "Select gitignore template to fetch") do |file|
-          file = file.downcase
-          # puts "Arguments: " + file
-          if @list.check_list(file)
-            @creator.create_ignore(file)
+        parser.banner = "How to Use ignore-it: Pass one of the following options: e.g => ignore-it -a csharp"
+        parser.on("-a ", "--add FILE", "Select gitignore template to create a .gitignore file or add a template to an existing .gitignore file") do |file|
+          if !file.empty?
+            file = file.downcase
+            if @list.check_list(file)
+              @creator.create_ignore(file)
+            else
+              puts "The template you tried to fetch does not exist".colorize(:red)
+              puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
+            end
           else
-            puts "The template you tried to fetch does not exist".colorize(:red)
-            puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
+            puts "You need to pass arguments (e.g => ignore-it -a **NAME**)"
           end
-          # @options[:file] = true
-        end
-        parser.on("-a ", "--add FILE", "Select gitignore template to add to a existing .gitignore file") do |file|
-          file = file.downcase
-          # puts "Arguments: " + file
-          if @list.check_list(file)
-            @creator.add_ignore(file)
-          else
-            puts "The template you tried to fetch does not exist".colorize(:red)
-            puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
-          end
-          # @options[:file] = true
         end
         parser.on("-l", "--list", "Show List of available .gitignore entries") do
           @list.show_list
         end
+        parser.on("--f", "--force", "Force overwriting the current .gitignore file") do
+        end
       end.parse!
+      # $options[:force]
     end
 
     def create_config_folder
