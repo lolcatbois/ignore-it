@@ -198,7 +198,7 @@ Style/FrozenStringLiteralComment:
   SafeAutoCorrect: true
 
 Style/GlobalVars:
-  AllowedVariables: [$options]
+  AllowedVariables: [$glob_settings]
 
 Style/HashSyntax:
   EnforcedStyle: ruby19

@@ -5,71 +5,60 @@ require 'colorize'
 require 'readline'
 require 'ignore_it/list'
 require 'ignore_it/creator'
+require 'thor'
 
 module IgnoreIt
-  class Main
-    # constructor
-    def initialize
-      create_config_folder
+  class CLI < Thor
+    def initialize(*args)
+      super
+      # create_config_folder
       @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
-      $options = {}
       @creator = Creator.new
       @list = List.new
+      $glob_settings = {}
+    end
+    class_options :force => :boolean
+    desc "add [templateName]", "Select gitignore template to create a .gitignore file
+    or add a template to an existing .gitignore file"
+    # options :force => :boolean
+    # options force: boolean
+    def add(*templateName)
+      if options[:force] == true
+        $glob_settings[:force] = true
+      end
+      templateName.each do |name|
+        name = name.downcase
+        if @list.check_list(name)
+          @creator.create_api_ignore(name)
+        else
+          puts "The template #{name} you tried to fetch does not exist".colorize(:red)
+          puts "Please checkout the available templates with " + "ignore-it list".colorize(:green)
+        end
+      end
     end
 
-    def start
-      ARGV << '-h' if ARGV.empty?
-      if ARGV.include?("--f")
-        $options[:force] = true
+    desc "own [fileName]", "Select user-created template from ~/.ignore-it/gitignores/"
+    def own(*fileName)
+      if options[:force] == true
+        $glob_settings[:force] = true
       end
-
-      OptionParser.new do |parser|
-        parser.banner = "How to Use ignore-it: Pass one of the following options: e.g => ignore-it -a csharp"
-        parser.on("-a ", "--add FILE", "Select gitignore template to create a .gitignore file or add a template to an existing .gitignore file") do |file|
-          if !file.empty?
-            file = file.downcase
-            if @list.check_list(file)
-              @creator.create_api_ignore(file)
-            else
-              puts "The template you tried to fetch does not exist".colorize(:red)
-              puts "Please checkout the available templates with " + "ignore-it -l".colorize(:green)
-            end
-          else
-            puts "You need to pass arguments (e.g => ignore-it -a **NAME**)"
-          end
-        end
-        parser.on("-o ", "--own FILE", "Select user-created template from ~/.ignore-it/gitignores/") do |file|
-          if !file.empty?
-            if @list.check_own_files(file)
-              @creator.create_own_ignore(file)
-            else
-              puts "The template you tried to create does not exist in ~/.ignore-it/gitignores/".colorize(:red)
-              puts "The following templates are available:".colorize(:red)
-              @list.show_own_files
-            end
-          else
-            puts "You need to pass arguments (e.g => ignore-it -o **NAME**)"
-          end
-        end
-        parser.on("-l", "--list", "Show List of available .gitignore entries") do
-          puts "---- Available templates from gitignore.io: ----"
-          @list.show_list
-          puts "---- Available templates from ~/.ignore-it/gitignores/: ----"
+      fileName.each do |name|
+        if @list.check_own_files(name)
+          @creator.create_own_ignore(name)
+        else
+          puts "The template #{name} you tried to create does not exist in ~/.ignore-it/gitignores/".colorize(:red)
+          puts "The following templates are available:".colorize(:red)
           @list.show_own_files
         end
-        parser.on("--f", "--force", "Force overwriting the current .gitignore file") do
-        end
-      end.parse!
-      # $options[:force]
+      end
     end
 
-    def create_config_folder
-      Dir.chdir(Dir.home) do
-        unless Dir.exist?(".ignore-it")
-          Dir.mkdir(".ignore-it")
-          Dir.mkdir(".ignore-it/gitignores")
-        end
-      end
+    desc "list", "Show List of available .gitignore entries"
+    def list
+      puts "---- Available templates from gitignore.io: ----"
+      @list.show_list
+      puts "---- Available templates from ~/.ignore-it/gitignores/: ----"
+      @list.show_own_files
     end
   end
 end

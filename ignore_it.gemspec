@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
 
   # RUNTIME DEPENDENCIES
   s.add_runtime_dependency('colorize', ">= 0.8.1")
+  s.add_runtime_dependency('thor', "~>1.0.1")
 end
