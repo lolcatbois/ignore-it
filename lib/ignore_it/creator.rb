@@ -13,15 +13,15 @@ module IgnoreIt
 
     def create_file(contents, name)
       puts "Creating .gitignore for " + name.colorize(:green)
-      unless $options[:force]
+      unless $glob_settings[:force]
         if File.exist?(".gitignore")
           # Store the state of the terminal
           sttySave = %x(stty -g).chomp
           overwrite = false
           append = false
-
           begin
-            puts "File already exists! Overwrite or append? [y => yes | a => append | n => no]?"
+            puts "File" + " .gitignore ".colorize(:yellow) + "already exists!"
+            puts "Overwrite or append? [y => yes | a => append | n => no]?"
             while (line = Readline.readline('> ', true).downcase)
               if line == "y"
                 overwrite = true
