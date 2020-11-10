@@ -4,14 +4,14 @@ require 'json'
 require 'colorize'
 require 'readline'
 require 'ignore_it/list'
+require 'ignore_it/config'
 require 'ignore_it/creator'
 
 module IgnoreIt
   class Main
     # constructor
     def initialize
-      create_config_folder
-      @url = "https://www.toptal.com/developers/gitignore/api/list?format=json"
+      @config = Config.new
       $options = {}
       @creator = Creator.new
       @list = List.new
@@ -61,15 +61,6 @@ module IgnoreIt
         end
       end.parse!
       # $options[:force]
-    end
-
-    def create_config_folder
-      Dir.chdir(Dir.home) do
-        unless Dir.exist?(".ignore-it")
-          Dir.mkdir(".ignore-it")
-          Dir.mkdir(".ignore-it/gitignores")
-        end
-      end
     end
   end
 end
