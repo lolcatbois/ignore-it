@@ -63,8 +63,14 @@ module IgnoreIt
 
     def create_own_ignore(name)
       contents = ""
-      Dir.chdir(Dir.home) do
-        contents = File.read(".ignore-it/gitignores/" + name)
+      if $glob_settings["own_gitignore_path"] == "default"
+        Dir.chdir(Dir.home) do
+          contents = File.read(".ignore-it/gitignores/" + name)
+        end
+      else
+        Dir.chdir($glob_settings["own_gitignore_path"]) do
+          contents = File.read(name)
+        end
       end
       create_file(contents, name)
     end
