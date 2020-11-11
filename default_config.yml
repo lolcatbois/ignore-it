@@ -1,0 +1,8 @@
+########################
+# CONFIG for ignore-it #
+########################
+
+# Set ABSOLUTE path to the directory where own gitignore files are stored
+# Default path is ~/.ignore-it/gitignores
+# OPTIONS: "default", "absolute_path"
+own_gitignore_path: "default"

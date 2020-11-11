@@ -7,11 +7,12 @@ Gem::Specification.new do |s|
     Feel it's sometimes cumbersome to browse to a website, only to download a .gitignore?
     We've got your back!
     ignore-it is a small cli tool, which helps in fetching and creating .gitignore files.
-    We try to keep runtime dependencies as small as possible and are using mostly standard ruby libraries. 
+    We try to keep runtime dependencies as small as possible and are using mostly standard ruby libraries.
   EOF
   s.authors = ["Felix Macho", "Simon Sölder"]
   s.metadata = { "source_code_uri" => "https://github.com/lolcatbois/ignore-it" }
   s.files = Dir.glob("{bin,lib}/**/*")
+  s.files += ["./default_config.yml"]
   s.licenses = ['MIT']
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files    = s.files.grep(%r{^test/})
