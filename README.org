@@ -5,9 +5,11 @@
 Currently .gitignore files will be fetched from [[https://gitignore.io]] or from local user-made templates.
 
 ** Installation
+
 =gem install ignore-it=
 
 ** Usage
+
 #+begin_src
 Commands:
   ignore-it add [templateName]  # Select gitignore template to create a .gitignore file or add a template to an existing .gitignore file
