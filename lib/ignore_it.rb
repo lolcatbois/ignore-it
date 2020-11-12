@@ -24,9 +24,7 @@ module IgnoreIt
     or add a template to an existing .gitignore file"
     def add(*templateName)
       if options[:output]
-        unless @creator.check_output_path(options[:output])
-          return false
-        end
+        return false unless @creator.check_output_path(options[:output])
         $glob_settings[:output] = if options[:output][-1] == '/'
           options[:output] + '.gitignore'
         else
@@ -35,9 +33,6 @@ module IgnoreIt
       end
       if options[:force]
         $glob_settings[:force] = true
-      end
-      templateName.each do |name|
-        puts name
       end
       templateName.each do |name|
         name = name.downcase
@@ -53,9 +48,7 @@ module IgnoreIt
     desc "own [fileName]", "Select user-created template from the folder specified in ~/.ignore-it/config.yml. Default is ~/.ignore-it/gitignores/."
     def own(*fileName)
       if options[:output]
-        unless @creator.check_output_path(options[:output])
-          return false
-        end
+        return false unless @creator.check_output_path(options[:output])
         $glob_settings[:output] = if options[:output][-1] == '/'
           options[:output] + '.gitignore'
         else

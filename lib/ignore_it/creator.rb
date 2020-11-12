@@ -15,8 +15,7 @@ module IgnoreIt
       puts "Creating .gitignore for " + name.colorize(:green)
       unless $glob_settings[:force]
         if File.exist?($glob_settings[:output])
-          # Store the state of the terminal
-          sttySave = %x(stty -g).chomp
+          sttySave = %x(stty -g).chomp # Store the state of the terminal
           overwrite = false
           append = false
           begin
