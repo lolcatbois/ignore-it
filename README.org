@@ -22,7 +22,7 @@ Options:
 
 You can chain multiple gitignores (e.g vsocde and csharp) in a single command with =ignore-it add vscode csharp=.
 
-Own gitignore templates can be accessed with =ignore-it own fileName=.
+Own gitignore templates can be accessed with =ignore-it own <fileName>=.
 Per default, the templates need to be created in =~/.ignore-it/gitignores/= and can be named freely.
 To choose a different path for your own created gitignores, you need to specify the absolute path to the directory in =~/ignore-it/config.yml=
 
