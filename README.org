@@ -2,16 +2,29 @@
 
 ** Description
 *ignore-it* is a tool written in ruby which helps in fetching and creating .gitignore files.
-Currently .gitignore files will be fetched from [https://gitignore.io].
+Currently .gitignore files will be fetched from [[https://gitignore.io]].
 
 ** Installation
 =gem install ignore-it=
 
 ** Usage
-=ignore-it -f [language]= fetches a .gitignore file and creates it in the directory where =git-ignore= has been envoked.
+#+begin_src 
+Commands:
 
-=ignore-it -l= shows all the supported languages
+  ignore-it add [templateName]  # Select gitignore template to create a .gitignore file or add a template to an existing .gitignore file
 
+  ignore-it help [COMMAND]      # Describe available commands or one specific command
+
+  ignore-it list                # Show List of available .gitignore entries
+
+  ignore-it own [fileName]      # Select user-created template from the folder specified in ~/.ignore-it/config.yml. Default is ~/.ignore-it/gitignores/.
+
+Options:
+  [--force]
+#+end_src
+
+** Configuration
+Configuration can be done in =~/.ignore-it/config.yml=.
 
 ** Development 
 1) Clone the repo
