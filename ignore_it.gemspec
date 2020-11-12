@@ -19,10 +19,10 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # DEV DEPENDENCIES
-  s.add_development_dependency("rake", ">= 11.3.0")
+  s.add_development_dependency("rake", "~>11.2.2")
   s.add_development_dependency("minitest")
 
   # RUNTIME DEPENDENCIES
-  s.add_runtime_dependency('colorize', ">= 0.8.1")
+  s.add_runtime_dependency('colorize', "~>0.8.1")
   s.add_runtime_dependency('thor', "~>1.0.1")
 end
