@@ -15,17 +15,29 @@ module IgnoreIt
       @config = Config.new
       @creator = Creator.new
       @list = List.new
+      $glob_settings[:output] = "./.gitignore"
     end
 
-    class_options force: :boolean
+    class_options force: :boolean, output: :string
 
     desc "add [templateName]", "Select gitignore template to create a .gitignore file
     or add a template to an existing .gitignore file"
-    # options :force => :boolean
-    # options force: boolean
     def add(*templateName)
-      if options[:force] == true
+      if options[:output]
+        unless @creator.check_output_path(options[:output])
+          return false
+        end
+        $glob_settings[:output] = if options[:output][-1] == '/'
+          options[:output] + '.gitignore'
+        else
+          options[:output] + '/.gitignore'
+        end
+      end
+      if options[:force]
         $glob_settings[:force] = true
+      end
+      templateName.each do |name|
+        puts name
       end
       templateName.each do |name|
         name = name.downcase
@@ -40,6 +52,16 @@ module IgnoreIt
 
     desc "own [fileName]", "Select user-created template from the folder specified in ~/.ignore-it/config.yml. Default is ~/.ignore-it/gitignores/."
     def own(*fileName)
+      if options[:output]
+        unless @creator.check_output_path(options[:output])
+          return false
+        end
+        $glob_settings[:output] = if options[:output][-1] == '/'
+          options[:output] + '.gitignore'
+        else
+          options[:output] + '/.gitignore'
+        end
+      end
       if options[:force] == true
         $glob_settings[:force] = true
       end

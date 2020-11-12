@@ -14,7 +14,7 @@ module IgnoreIt
     def create_file(contents, name)
       puts "Creating .gitignore for " + name.colorize(:green)
       unless $glob_settings[:force]
-        if File.exist?(".gitignore")
+        if File.exist?($glob_settings[:output])
           # Store the state of the terminal
           sttySave = %x(stty -g).chomp
           overwrite = false
@@ -41,22 +41,22 @@ module IgnoreIt
           end
 
           if overwrite
-            File.write("./.gitignore", contents)
+            File.write($glob_settings[:output], contents)
             puts ".gitignore has been created!".colorize(:green)
           elsif append
-            gitignoreContents = File.read("./.gitignore")
+            gitignoreContents = File.read($glob_settings[:output])
             puts "Adding .gitignore content from " + name.colorize(:green) + " to existing .gitignore File"
             gitignoreContents += contents
-            File.write("./.gitignore", gitignoreContents)
+            File.write($glob_settings[:output], gitignoreContents)
           else
             puts ".gitignore has NOT been created! Terminating process!".colorize(:red)
           end
         else
-          File.write("./.gitignore", contents)
+          File.write($glob_settings[:output], contents)
           puts ".gitignore has been created!".colorize(:green)
         end
       else
-        File.write("./.gitignore", contents)
+        File.write($glob_settings[:output], contents)
         puts ".gitignore has been created!".colorize(:green)
       end
     end
@@ -79,6 +79,14 @@ module IgnoreIt
       template = @jsonResponse[name]
       contents = template["contents"]
       create_file(contents, name)
+    end
+
+    def check_output_path(name)
+      if Dir.exist?(name)
+        true
+      else
+        puts "The Output Path you provided does currently not exist, please create it manually before using --output".colorize(:red)
+      end
     end
   end
 end
