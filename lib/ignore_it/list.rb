@@ -19,14 +19,14 @@ module IgnoreIt
     def load_own_files
       @ownFiles = if $glob_settings["own_gitignore_path"] == "default"
         Dir.chdir(Dir.home) do
-          Dir.entries(".ignore-it/gitignores/").select do |f|
-            f unless f =~ /^..?$/ # some regex magic to remove "." and ".."
+          Dir.entries(".ignore-it/gitignores/").select do |files|
+            files unless files =~ /^..?$/ # some regex magic to remove "." and ".."
           end
         end
       else
         Dir.chdir($glob_settings["own_gitignore_path"]) do
-          Dir.entries(".").select do |f|
-            f unless f =~ /^..?$/
+          Dir.entries(".").select do |files|
+            files unless files =~ /^..?$/
           end
         end
       end
@@ -64,7 +64,6 @@ module IgnoreIt
     # Print all gitignore templates fetched by the API
     def show_list
       sortedArray = @jsonResponse.sort
-
       sortedArray.each do |entry|
         puts entry.first
       end
