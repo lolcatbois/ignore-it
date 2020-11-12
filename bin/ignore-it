@@ -3,5 +3,7 @@
 require 'optparse'
 require "ignore_it"
 
-tool = IgnoreIt::Main.new
-tool.start
+# tool = IgnoreIt::Main.new
+# tool.start
+tool = IgnoreIt::CLI
+tool.start(ARGV)

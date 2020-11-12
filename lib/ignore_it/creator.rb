@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # lib/creation.rb
 require 'ignore_it/list'
 require 'readline'
@@ -6,54 +7,84 @@ require 'colorize'
 module IgnoreIt
   class Creator
     def initialize
-      list = List.new
-      @jsonResponse = list.jsonResponse
+      @list = List.new
+      @jsonResponse = @list.jsonResponse
     end
 
-    # Code here
-    def create_ignore(name)
+    def create_file(contents, name)
+      puts "Creating .gitignore for " + name.colorize(:green)
+      unless $glob_settings[:force]
+        if File.exist?($glob_settings[:output])
+          sttySave = %x(stty -g).chomp # Store the state of the terminal
+          overwrite = false
+          append = false
+          begin
+            puts "File" + " .gitignore ".colorize(:yellow) + "already exists!"
+            puts "Overwrite or append? [y => yes | a => append | n => no]?"
+            while (line = Readline.readline('> ', true).downcase)
+              if line == "y"
+                overwrite = true
+                break
+              elsif line == "n"
+                break
+              elsif line == "a"
+                append = true
+                break
+              elsif (line != "y") || (line != "n") || (line != "a")
+                puts "Please provide a correct format (y or n)".colorize(:red)
+              end
+            end
+          rescue Interrupt
+            system('stty', sttySave) # Restore
+            exit
+          end
+
+          if overwrite
+            File.write($glob_settings[:output], contents)
+            puts ".gitignore has been created!".colorize(:green)
+          elsif append
+            gitignoreContents = File.read($glob_settings[:output])
+            puts "Adding .gitignore content from " + name.colorize(:green) + " to existing .gitignore File"
+            gitignoreContents += contents
+            File.write($glob_settings[:output], gitignoreContents)
+          else
+            puts ".gitignore has NOT been created! Terminating process!".colorize(:red)
+          end
+        else
+          File.write($glob_settings[:output], contents)
+          puts ".gitignore has been created!".colorize(:green)
+        end
+      else
+        File.write($glob_settings[:output], contents)
+        puts ".gitignore has been created!".colorize(:green)
+      end
+    end
+
+    def create_own_ignore(name)
+      contents = ""
+      if $glob_settings["own_gitignore_path"] == "default"
+        Dir.chdir(Dir.home) do
+          contents = File.read(".ignore-it/gitignores/" + name)
+        end
+      else
+        Dir.chdir($glob_settings["own_gitignore_path"]) do
+          contents = File.read(name)
+        end
+      end
+      create_file(contents, name)
+    end
+
+    def create_api_ignore(name)
       template = @jsonResponse[name]
       contents = template["contents"]
+      create_file(contents, name)
+    end
 
-      puts "Creating .gitignore for " + name.colorize(:green)
-
-      if File.exist?(".gitignore")
-        # Store the state of the terminal
-        sttySave = %x(stty -g).chomp
-        overwrite = false
-
-        begin
-          puts "File already exists! Overwrite? [y/n]?"
-          while (line = Readline.readline('> ', true).downcase)
-            # if (line.empty? or line != "y" or line != "n")
-
-            if line == "y"
-              overwrite = true
-              break
-            # puts "yo"
-            elsif line == "n"
-              break
-            # puts "ney"
-            elsif (line != "y") || (line != "n")
-              puts "Please provide a correct format (y or n)".colorize(:red)
-              # puts "wut"
-            end
-          end
-        rescue Interrupt => e
-          system('stty', sttySave) # Restore
-          exit
-        end
-
-        if overwrite
-          File.write("./.gitignore", contents)
-          puts ".gitignore has been created!".colorize(:green)
-        else
-          puts ".gitignore has NOT been created! Terminating process!".colorize(:red)
-        end
-
+    def check_output_path(name)
+      if Dir.exist?(name)
+        true
       else
-        File.write("./.gitignore", contents)
-        puts ".gitignore has been created!".colorize(:green)
+        puts "The Output Path you provided does currently not exist, please create it manually before using --output".colorize(:red)
       end
     end
   end
