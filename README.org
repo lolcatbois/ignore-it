@@ -24,7 +24,7 @@ Options:
 #+end_src
 
 ** Configuration
-Configuration can be done in =~/.ignore-it/config.yml.
+Configuration can be done in =~/.ignore-it/config.yml=.
 
 ** Development 
 1) Clone the repo
