@@ -17,7 +17,7 @@ Commands:
 
 Options:
   [--force]          
-  [--output="OUTPUT"            # Optional Path to directory where .gitignore should be created. 
+  [--output="OUTPUT"]           # Optional Path to directory where .gitignore should be created. 
 #+end_src
 
 You can chain multiple gitignores (e.g vsocde and csharp) in a single command with =ignore-it add vscode csharp=.
