@@ -30,7 +30,7 @@ module IgnoreIt
               elsif line == "a"
                 append = true
                 break
-              elsif (line != "y") || (line != "n") || (line != "a")
+              else
                 puts "Please provide a correct format (y or n)".colorize(:red)
               end
             end
@@ -40,9 +40,31 @@ module IgnoreIt
           end
 
           if overwrite
+            if $glob_settings[:recursive]
+              recursiveContent = ""
+              contents.each_line do |thisLine|
+                recursiveContent += unless thisLine[0] == '#' || thisLine == "\n"
+                  '**/' + thisLine.to_s
+                else
+                  thisLine.to_s
+                end
+              end
+              contents = recursiveContent
+            end
             File.write($glob_settings[:output], contents)
             puts ".gitignore has been created!".colorize(:green)
           elsif append
+            if $glob_settings[:recursive]
+              recursiveContent = ""
+              contents.each_line do |thisLine|
+                recursiveContent += unless thisLine[0] == '#' || thisLine == "\n"
+                  '**/' + thisLine.to_s
+                else
+                  thisLine.to_s
+                end
+              end
+              contents = recursiveContent
+            end
             gitignoreContents = File.read($glob_settings[:output])
             puts "Adding .gitignore content from " + name.colorize(:green) + " to existing .gitignore File"
             gitignoreContents += contents
