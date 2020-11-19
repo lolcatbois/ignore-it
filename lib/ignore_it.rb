@@ -18,7 +18,7 @@ module IgnoreIt
       $glob_settings[:output] = "./.gitignore"
     end
 
-    class_options force: :boolean, output: :string
+    class_options force: :boolean, output: :string, recursive: :boolean
 
     desc "add [templateName]", "Select gitignore template to create a .gitignore file
     or add a template to an existing .gitignore file"
@@ -33,6 +33,9 @@ module IgnoreIt
       end
       if options[:force]
         $glob_settings[:force] = true
+      end
+      if options[:recursive]
+        $glob_settings[:recursive] = true
       end
       templateName.each do |name|
         name = name.downcase
@@ -57,6 +60,9 @@ module IgnoreIt
       end
       if options[:force] == true
         $glob_settings[:force] = true
+      end
+      if options[:recursive]
+        $glob_settings[:recursive] = true
       end
       fileName.each do |name|
         if @list.check_own_files(name)
